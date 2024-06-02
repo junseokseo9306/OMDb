@@ -31,6 +31,12 @@ class MainActivity : AppCompatActivity() {
             if (backStack) {
                 addToBackStack(null)
             }
+            setCustomAnimations(
+                R.anim.slide_enter_from_right,
+                R.anim.slide_exit_to_left,
+                R.anim.slide_enter_from_left,
+                R.anim.slide_exit_to_right
+            )
             replace(R.id.nav_host_fragment_content_main, fragment, fragment::class.java.name)
         }
     }
