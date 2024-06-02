@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.DetailFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:paddingVertical="5dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_back_arr"
+            android:translationZ="10dp"
+            android:contentDescription="@string/back_button_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/poster_big_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:contentDescription="@string/poster_big_image_view_description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sampleimage"
+            android:tintMode="src_atop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/back_button"
+            app:tint="@color/image_tint_color" />
+
+        <TextView
+            android:id="@+id/title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingHorizontal="6dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/metascore_text_view"
+            tools:text="Star Wars: Episode IX - The Rise of Skywalker" />
+
+        <TextView
+            android:id="@+id/metascore_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:paddingStart="6dp"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toTopOf="@id/imdbrating_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Metascore : 72" />
+
+        <TextView
+            android:id="@+id/imdbrating_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:paddingStart="6dp"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toTopOf="@id/genre_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="imdb : 7.7" />
+
+        <TextView
+            android:id="@+id/genre_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:paddingStart="6dp"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toTopOf="@id/released_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Genre : Action, Adventure, Sci-Fi" />
+
+        <TextView
+            android:id="@+id/released_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="6dp"
+            android:paddingStart="6dp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/poster_big_image_view"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="ReleasedDate : 16 May 2013" />
+
+        <TextView
+            android:id="@+id/plot_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingHorizontal="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/poster_big_image_view"
+            tools:text="After the crew of the Enterprise find an unstoppable force of terror from within their own organization, Captain Kirk leads a manhunt to a war-zone world to capture a one-man weapon of mass destruction." />
+
+        <TextView
+            android:id="@+id/actors_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingHorizontal="8dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/plot_text_view"
+            tools:text="Actors: Chris Pine, Zachary Quinto, Zoe Saldana" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rating_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/actors_text_view"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_rating_omdb" />
+
+        <TextView
+            android:id="@+id/nominated_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rating_recyclerview"
+            tools:text="Nominated for 1 Oscar. 7 wins 58 nominations total" />
+
+        <TextView
+            android:id="@+id/boxoffice_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nominated_text_view"
+            tools:text="$228,778,661" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
