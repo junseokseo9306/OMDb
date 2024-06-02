@@ -33,6 +33,10 @@ class SharedViewModel @Inject constructor(
         get() = _errorText
     private val _errorText: MutableLiveData<Int> = MutableLiveData()
 
+    val loadingStatus: LiveData<Boolean>
+        get() = _loadingStatus
+    private val _loadingStatus: MutableLiveData<Boolean> = MutableLiveData(false)
+
     val movieList: LiveData<List<MovieUiModel>>
         get() = _movieList
     private val _movieList: MutableLiveData<List<MovieUiModel>> = MutableLiveData()
@@ -40,10 +44,6 @@ class SharedViewModel @Inject constructor(
     val detailUiModel: LiveData<MovieDetailUiModel>
         get() = _detailUiModel
     private val _detailUiModel: MutableLiveData<MovieDetailUiModel> = MutableLiveData()
-
-    val loadingStatus: LiveData<Boolean>
-        get() = _loadingStatus
-    private val _loadingStatus: MutableLiveData<Boolean> = MutableLiveData(false)
 
     companion object {
         private const val USER_KEYWORD_SAVED = "user_keyword"
@@ -72,11 +72,21 @@ class SharedViewModel @Inject constructor(
 
     fun getDetailInfo(id: String) {
         viewModelScope.launch {
+            _loadingStatus.value = true
             val repositorySearch = searchRepository.getSearchResult()
             val detailResult = repositorySearch.getMovieDetail(Constants.REST_API_KEY, id)
             detailResult.onSuccess { detailDTO ->
-                val detailUiModel = detailDTO.toMovieDetailUiModel()
-                _detailUiModel.value = detailUiModel
+                if (detailDTO.Response == "True") {
+                    val detailUiModel = detailDTO.toMovieDetailUiModel()
+                    _detailUiModel.value = detailUiModel
+                } else {
+                    _errorText.value = R.string.search_not_found_text
+                }
+                _loadingStatus.value = false
+            }
+            detailResult.onFailure {
+                _errorText.value = R.string.error_text
+                _loadingStatus.value = false
             }
         }
     }

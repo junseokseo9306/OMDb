@@ -97,7 +97,7 @@
             android:id="@+id/plot_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="start"
             android:paddingHorizontal="8dp"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:ellipsize="end"
-            android:gravity="center"
+            android:gravity="start"
             android:maxLines="1"
             android:paddingHorizontal="8dp"
             android:textSize="14sp"
@@ -160,5 +160,16 @@
             app:layout_constraintTop_toBottomOf="@id/nominated_text_view"
             tools:text="$228,778,661" />
 
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/loading_bar"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/material_dynamic_primary40"
+            android:indeterminateTintMode="src_in"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/back_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

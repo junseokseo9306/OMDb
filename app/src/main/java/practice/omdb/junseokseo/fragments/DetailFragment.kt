@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import practice.omdb.junseokseo.R
@@ -82,6 +84,15 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
                 nominatedTextView.text = movieDetailUi.awards
                 boxofficeTextView.text = movieDetailUi.boxOffice
             }
+        }
+
+        viewModel.loadingStatus.observe(viewLifecycleOwner) { isLoading ->
+            binding.loadingBar.isVisible = isLoading
+        }
+
+        viewModel.errorText.observe(viewLifecycleOwner) { message ->
+            val context = context ?: return@observe
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
 }
