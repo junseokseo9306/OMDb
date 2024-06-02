@@ -67,17 +67,16 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 }
                 return@setOnEditorActionListener false
             }
-        }
+            searchRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
 
-        binding.searchRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                if (!binding.searchRecyclerView.canScrollVertically(Constants.RECYCLERVIEW_END)) {
-                    viewModel.loadMoreData()
+                    if (!binding.searchRecyclerView.canScrollVertically(Constants.RECYCLERVIEW_END)) {
+                        viewModel.loadMoreData()
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     private fun setupObservers() {
