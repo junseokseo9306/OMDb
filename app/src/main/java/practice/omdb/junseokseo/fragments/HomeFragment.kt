@@ -1,9 +1,14 @@
 package practice.omdb.junseokseo.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import practice.omdb.junseokseo.R
 import practice.omdb.junseokseo.adapter.SearchRecyclerViewAdapter
@@ -37,6 +42,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
         setupUi()
         setupObservers()
+        setupClickListeners()
     }
 
     override fun onDestroyView() {
@@ -49,6 +55,15 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             searchRecyclerView.adapter = adapter
             searchRecyclerView.scheduleLayoutAnimation()
             searchRecyclerView.addItemDecoration(decoration)
+            searchEditText.setOnEditorActionListener { view, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    viewModel.getSearch()
+                    view.clearFocus()
+                    hideKeyboard(view)
+                    return@setOnEditorActionListener true
+                }
+                return@setOnEditorActionListener false
+            }
         }
     }
 
@@ -56,5 +71,28 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         viewModel.movieList.observe(viewLifecycleOwner) { movieList ->
             adapter.submitList(movieList)
         }
+
+        viewModel.errorText.observe(viewLifecycleOwner) { message ->
+            val context = context ?: return@observe
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setupClickListeners() {
+        binding.searchClickImageButton.setOnClickListener {
+            viewModel.getSearch()
+        }
+
+        binding.searchEditText.addTextChangedListener(
+            afterTextChanged = { text ->
+                viewModel.changeKeyword(text?.toString())
+            }
+        )
+    }
+
+    private fun hideKeyboard(view: View) {
+        val context = context ?: return
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

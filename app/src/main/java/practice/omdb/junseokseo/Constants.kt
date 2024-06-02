@@ -5,4 +5,5 @@ object Constants {
     const val REST_API_KEY = BuildConfig.REST_API_KEY
     const val SEARCH_TYPE = "movie"
     const val START_PAGE_NUMBER = 1
+    const val DEFAULT_KEY_WORD = "star"
 }
