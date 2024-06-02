@@ -15,4 +15,5 @@
     <string name="imdb_score_text">IMDB: %s</string>
     <string name="genre_text">Genre: %s</string>
     <string name="released_date_text">Released Date: %s</string>
+    <string name="icon_image_description">search_from_server</string>
 </resources>

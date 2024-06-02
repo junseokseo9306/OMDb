@@ -65,7 +65,11 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
         viewModel.detailUiModel.observe(viewLifecycleOwner) { movieDetailUi ->
             adapter.submitList(movieDetailUi.ratings)
             with(binding) {
-                posterBigImageView.load(movieDetailUi.poster)
+                posterBigImageView.load(movieDetailUi.poster) {
+                    crossfade(true)
+                    error(R.drawable.ic_image_error)
+                    fallback(R.drawable.ic_image_error)
+                }
                 titleTextView.text = movieDetailUi.title
                 metascoreTextView.text =
                     getString(R.string.meta_score_text, movieDetailUi.metaScore)

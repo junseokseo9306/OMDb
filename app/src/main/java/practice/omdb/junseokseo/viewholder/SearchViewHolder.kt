@@ -3,6 +3,7 @@ package practice.omdb.junseokseo.viewholder
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import practice.omdb.junseokseo.R
 import practice.omdb.junseokseo.databinding.ItemSearchOmdbBinding
 import practice.omdb.junseokseo.ui.model.DetailFragmentEvent
 import practice.omdb.junseokseo.ui.model.MovieUiModel
@@ -17,7 +18,11 @@ class SearchViewHolder(
     fun bind(item: MovieUiModel) {
         with(binding) {
             itemBackground.clipToOutline = true
-            posterImageView.load(item.posterUrl)
+            posterImageView.load(item.posterUrl) {
+                crossfade(true)
+                error(R.drawable.ic_image_error)
+                fallback(R.drawable.ic_image_error)
+            }
             posterTitleView.text = item.title
         }
 

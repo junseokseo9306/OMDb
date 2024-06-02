@@ -1,6 +1,5 @@
 package practice.omdb.junseokseo.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -42,6 +41,10 @@ class SharedViewModel @Inject constructor(
         get() = _detailUiModel
     private val _detailUiModel: MutableLiveData<MovieDetailUiModel> = MutableLiveData()
 
+    val loadingStatus: LiveData<Boolean>
+        get() = _loadingStatus
+    private val _loadingStatus: MutableLiveData<Boolean> = MutableLiveData(false)
+
     companion object {
         private const val USER_KEYWORD_SAVED = "user_keyword"
     }
@@ -56,10 +59,14 @@ class SharedViewModel @Inject constructor(
             return
         }
         userKeyWord = keyword
-        Log.d("SearchViewModelxx", "userKeyword: $userKeyWord")
     }
 
     fun getSearch() {
+        getMovieList(userKeyWord, Constants.START_PAGE_NUMBER, true)
+    }
+
+    fun loadMoreData() {
+        pageNum += 1
         getMovieList(userKeyWord, pageNum)
     }
 
@@ -74,10 +81,11 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    private fun getMovieList(keyword: String, pageNum: Int) {
+    private fun getMovieList(keyword: String, pageNum: Int, shouldResetList: Boolean = false) {
         savedStateHandle[USER_KEYWORD_SAVED] = keyword
 
         viewModelScope.launch {
+            _loadingStatus.value = true
             val repositorySearch = searchRepository.getSearchResult()
             val searchResult = repositorySearch.getMovieList(
                 Constants.REST_API_KEY,
@@ -88,16 +96,26 @@ class SharedViewModel @Inject constructor(
             searchResult.onSuccess { searchDto ->
                 if (searchDto.Response == "True") {
                     val movieListDto = searchDto.Search
+                    val currentList = if (shouldResetList) {
+                        emptyList()
+                    } else {
+                        _movieList.value ?: emptyList()
+                    }
                     val uiMovieList = MutableList(movieListDto.size) { index ->
                         movieListDto[index].toMovieUiModel()
                     }
-                    _movieList.value = uiMovieList
+                    val newList = mutableListOf<MovieUiModel>()
+                    newList.addAll(currentList)
+                    newList.addAll(uiMovieList)
+                    _movieList.value = newList
                 } else {
                     _errorText.value = R.string.search_not_found_text
                 }
+                _loadingStatus.value = false
             }
             searchResult.onFailure {
                 _errorText.value = R.string.error_text
+                _loadingStatus.value = false
             }
         }
     }

@@ -6,4 +6,5 @@ object Constants {
     const val SEARCH_TYPE = "movie"
     const val START_PAGE_NUMBER = 1
     const val DEFAULT_KEY_WORD = "star"
+    const val RECYCLERVIEW_END = 1
 }

@@ -14,19 +14,20 @@
         android:background="@android:color/transparent"
         android:hint="@string/search_edit_text_hint"
         android:imeOptions="actionDone"
+        android:importantForAutofill="no"
         android:inputType="text"
         android:maxLines="1"
         android:paddingHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/search_click_image_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
+        android:contentDescription="@string/icon_image_description"
         android:padding="7dp"
         android:src="@drawable/ic_search"
         app:layout_constraintBottom_toBottomOf="@id/search_edit_text"
@@ -47,4 +48,16 @@
         app:spanCount="2"
         tools:itemCount="8"
         tools:listitem="@layout/item_search_omdb" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/loading_bar"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/material_dynamic_primary40"
+        android:indeterminateTintMode="src_in"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_edit_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import practice.omdb.junseokseo.Constants
 import practice.omdb.junseokseo.R
 import practice.omdb.junseokseo.adapter.SearchRecyclerViewAdapter
 import practice.omdb.junseokseo.databinding.FragmentHomeBinding
@@ -65,6 +68,16 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
                 return@setOnEditorActionListener false
             }
         }
+
+        binding.searchRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (!binding.searchRecyclerView.canScrollVertically(Constants.RECYCLERVIEW_END)) {
+                    viewModel.loadMoreData()
+                }
+            }
+        })
     }
 
     private fun setupObservers() {
@@ -75,6 +88,10 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         viewModel.errorText.observe(viewLifecycleOwner) { message ->
             val context = context ?: return@observe
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.loadingStatus.observe(viewLifecycleOwner) {isLoading ->
+            binding.loadingBar.isVisible = isLoading
         }
     }
 
