@@ -67,10 +67,12 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             with(binding) {
                 posterBigImageView.load(movieDetailUi.poster)
                 titleTextView.text = movieDetailUi.title
-                metascoreTextView.text = "MetaScore: ${movieDetailUi.metaScore}"
-                imdbratingTextView.text = movieDetailUi.imdb
-                genreTextView.text = movieDetailUi.genre
-                releasedTextView.text = movieDetailUi.releasedDate
+                metascoreTextView.text =
+                    getString(R.string.meta_score_text, movieDetailUi.metaScore)
+                imdbratingTextView.text = getString(R.string.imdb_score_text, movieDetailUi.imdb)
+                genreTextView.text = getString(R.string.genre_text, movieDetailUi.genre)
+                releasedTextView.text =
+                    getString(R.string.released_date_text, movieDetailUi.releasedDate)
                 plotTextView.text = movieDetailUi.plot
                 actorsTextView.text = movieDetailUi.actors
                 nominatedTextView.text = movieDetailUi.awards
