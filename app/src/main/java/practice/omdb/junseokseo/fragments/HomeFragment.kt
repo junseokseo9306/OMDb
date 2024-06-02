@@ -85,7 +85,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             adapter.submitList(movieList)
         }
 
-        viewModel.errorText.observe(viewLifecycleOwner) { message ->
+        viewModel.errorText.observe(viewLifecycleOwner) { event ->
+            val message = event.getContentIfNotHandled() ?: return@observe
             val context = context ?: return@observe
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }

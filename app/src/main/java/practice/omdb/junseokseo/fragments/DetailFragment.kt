@@ -90,7 +90,8 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail) {
             binding.loadingBar.isVisible = isLoading
         }
 
-        viewModel.errorText.observe(viewLifecycleOwner) { message ->
+        viewModel.errorText.observe(viewLifecycleOwner) { event ->
+            val message = event.getContentIfNotHandled() ?: return@observe
             val context = context ?: return@observe
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }

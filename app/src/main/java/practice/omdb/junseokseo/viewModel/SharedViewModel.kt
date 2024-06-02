@@ -29,9 +29,9 @@ class SharedViewModel @Inject constructor(
 
     val transactionEvent: MutableLiveData<Event<UiTransaction>> = MutableLiveData()
 
-    val errorText: LiveData<Int>
+    val errorText: LiveData<Event<Int>>
         get() = _errorText
-    private val _errorText: MutableLiveData<Int> = MutableLiveData()
+    private val _errorText: MutableLiveData<Event<Int>> = MutableLiveData()
 
     val loadingStatus: LiveData<Boolean>
         get() = _loadingStatus
@@ -80,12 +80,12 @@ class SharedViewModel @Inject constructor(
                     val detailUiModel = detailDTO.toMovieDetailUiModel()
                     _detailUiModel.value = detailUiModel
                 } else {
-                    _errorText.value = R.string.search_not_found_text
+                    _errorText.value = Event(R.string.search_not_found_text)
                 }
                 _loadingStatus.value = false
             }
             detailResult.onFailure {
-                _errorText.value = R.string.error_text
+                _errorText.value = Event(R.string.error_text)
                 _loadingStatus.value = false
             }
         }
@@ -119,12 +119,12 @@ class SharedViewModel @Inject constructor(
                     newList.addAll(uiMovieList)
                     _movieList.value = newList
                 } else {
-                    _errorText.value = R.string.search_not_found_text
+                    _errorText.value = Event(R.string.search_not_found_text)
                 }
                 _loadingStatus.value = false
             }
             searchResult.onFailure {
-                _errorText.value = R.string.error_text
+                _errorText.value = Event(R.string.error_text)
                 _loadingStatus.value = false
             }
         }
